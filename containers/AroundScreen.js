@@ -10,6 +10,8 @@ const AroundScreen = () => {
   const [longitude, setLongitude] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [markers, setMarkers] = useState();
+  console.log(markers);
+  // modifier avec useCallback()
   useEffect(() => {
     const permissions = async () => {
       try {
@@ -21,6 +23,7 @@ const AroundScreen = () => {
           setLatitude(location.coords.latitude);
           setLongitude(location.coords.longitude);
           setIsLoading(false);
+          // appeler ici la requete pour récuperer les coords
         }
       } catch (error) {
         console.log(error.message);
@@ -33,7 +36,7 @@ const AroundScreen = () => {
       );
       setMarkers(response.data);
     };
-
+    console.log(markers);
     permissions();
     if (latitude && longitude) {
       fetchData();

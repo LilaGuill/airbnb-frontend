@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import { useRoute } from "@react-navigation/core";
-import Swiper from "react-native-swiper";
+
 import axios from "axios";
 import { ScrollView } from "react-native-gesture-handler";
 import ImageItem from "../components/ImageItem";
@@ -27,14 +27,13 @@ const RoomScreen = () => {
     fetchData();
   }, []);
 
-  // const listPhotos = flat.photos.map((photo, index) => {
-  // //   return <Image source={{ uri: photo }} style={styles.image} />;
-  // // });
   return (
     <ScrollView>
       {isLoading === true ? (
-        <View>
-          <Text>Loading</Text>
+        <View
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+          <ActivityIndicator size="large" />
         </View>
       ) : (
         <View>
@@ -45,9 +44,8 @@ const RoomScreen = () => {
           <View style={styles.rate}>
             <Rating rate={flat.ratingValue} />
           </View>
-          <Text>{flat.description}</Text>
-
-          <Map latitude={flat.loc[1]} longitude={flat.loc[0]} height={200} />
+          <Text style={styles.description}>{flat.description}</Text>
+          <Map latitude={flat.loc[1]} longitude={flat.loc[0]} height={300} />
         </View>
       )}
     </ScrollView>
@@ -60,9 +58,15 @@ const styles = StyleSheet.create({
     height: 200
   },
   title: {
-    fontSize: 16,
+    fontSize: 20,
     color: "#302017",
-    marginTop: 5
+    marginHorizontal: 10,
+    marginVertical: 5
+  },
+  description: {
+    marginHorizontal: 10,
+    fontSize: 16,
+    marginVertical: 10
   },
   rate: {
     flexDirection: "row"

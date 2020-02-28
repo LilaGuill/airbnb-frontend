@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { ActivityIndicator, View, Text } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 
 const Map = ({ latitude, longitude, height, title, markers }) => {
+  console.log(markers);
   const [isLoading, setIsLoading] = useState(true);
   const [lat, setLat] = useState();
   const [lng, setLng] = useState();
@@ -13,6 +14,7 @@ const Map = ({ latitude, longitude, height, title, markers }) => {
     setIsLoading(false);
   }, []);
 
+  //ajouter le callout
   return (
     <View>
       {isLoading ? (
@@ -21,7 +23,10 @@ const Map = ({ latitude, longitude, height, title, markers }) => {
         <MapView
           initialRegion={{
             latitude: lat,
-            longitude: lng
+            longitude: lng,
+            latitudeDelta: 0.1,
+            longitudeDelta: 0.1
+            // ajouter delta pour gerer le zoom
           }}
           showsUserLocation={true}
           provider={PROVIDER_GOOGLE}

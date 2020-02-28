@@ -8,12 +8,12 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
-  KeyboardAvoidingView
+  View
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-export default function SignInScreen({ setToken }) {
+export default function SignInScreen({ setUserToken, setUserId, userId }) {
   const [email, setEmail] = useState("lila@gmail.com");
   const [password, setPassword] = useState("lilampd");
   const [isLoading, setIsLoading] = useState(false); //pour afficher un composant de chargement avce activity indicateur
@@ -23,7 +23,7 @@ export default function SignInScreen({ setToken }) {
     setIsLoading(true);
 
     const response = await axios.post(
-      "https://airbnb-api.herokuapp.com/api/user/log_in",
+      "https://express-airbnb-api.herokuapp.com/user/log_in",
       { email, password },
       {
         headers: {
@@ -31,7 +31,8 @@ export default function SignInScreen({ setToken }) {
         }
       }
     );
-    setToken(response.data.token);
+    setUserToken(response.data.token);
+    setUserId(response.data.id);
     setIsLoading(false);
     console.log("response", response.data);
   };
@@ -44,30 +45,37 @@ export default function SignInScreen({ setToken }) {
       <View style={styles.wrapper}>
         <AntDesign name="home" size={72} color="white" />
       </View>
-      <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
-        <View>
-          <TextInput
-            color="white"
-            value={email}
-            style={styles.input}
-            placeholder="Email"
-            placeholderTextColor="white"
-            onChangeText={text => {
-              setEmail(text);
-            }}
-          />
+      <KeyboardAwareScrollView
+        scrollEnabled
+        style={{
+          flex: 1,
+          width: "100%",
+          paddingHorizontal: 20
+        }}
+      >
+        <TextInput
+          autoCapitalize="none"
+          color="white"
+          value={email}
+          style={styles.input}
+          placeholder="Email"
+          placeholderTextColor="white"
+          onChangeText={text => {
+            setEmail(text);
+          }}
+        />
 
-          <TextInput
-            color="white"
-            value={password}
-            style={styles.input}
-            secureTextEntry={true}
-            placeholderTextColor="white"
-            onChangeText={text => {
-              setPassword(text);
-            }}
-          />
-        </View>
+        <TextInput
+          color="white"
+          value={password}
+          style={styles.input}
+          secureTextEntry={true}
+          placeholderTextColor="white"
+          onChangeText={text => {
+            setPassword(text);
+          }}
+        />
+
         {/* {isLoading} */}
         <View style={styles.wrapperBtn}>
           <TouchableOpacity
@@ -89,7 +97,7 @@ export default function SignInScreen({ setToken }) {
             <Text style={styles.text}>Pas de compte ? S'incrire</Text>
           </TouchableOpacity>
         </View>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </View>
   );
 }
@@ -114,8 +122,8 @@ const styles = StyleSheet.create({
     borderBottomColor: "#efeae5",
     borderBottomWidth: 1,
     height: 44,
-    margin: 20,
-    fontSize: 16
+    fontSize: 16,
+    marginBottom: 30
   },
   btn: {
     backgroundColor: "white",
@@ -123,7 +131,8 @@ const styles = StyleSheet.create({
     height: 54,
     borderRadius: 25,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    marginTop: 30
   },
   textBtn: {
     color: "#FF5A5E",
@@ -131,6 +140,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#efeae5",
-    textDecorationLine: "underline"
+    textDecorationLine: "underline",
+    marginTop: 20
   }
 });

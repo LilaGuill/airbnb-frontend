@@ -9,7 +9,7 @@ import {
   View
 } from "react-native";
 
-export default function SignUpScreen({ setToken }) {
+export default function SignUpScreen({ setToken, setUserId }) {
   const [email, setEmail] = useState("lila@gmail.com");
   const [username, setUsername] = useState("lila");
   const [name, setName] = useState("lila");
@@ -19,7 +19,7 @@ export default function SignUpScreen({ setToken }) {
 
   const handlePress = async () => {
     const response = await axios.post(
-      "https://airbnb-api.herokuapp.com/api/user/sign_up",
+      "https://express-airbnb-api.herokuapp.com/user/sign_up",
       { email, username, name, description, password },
       {
         headers: {
@@ -114,16 +114,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "white"
   },
-  form: {
-    marginTop: 60,
-    width: "100%",
-    alignItems: "center"
-  },
+
   input: {
     borderBottomColor: "#efeae5",
     borderBottomWidth: 1,
     height: 40,
-    margin: 20,
     fontSize: 16,
     color: "white",
     width: "80%",

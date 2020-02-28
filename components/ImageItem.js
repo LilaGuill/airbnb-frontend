@@ -2,9 +2,11 @@ import React from "react";
 import { Image, View, StyleSheet, Text } from "react-native";
 
 const ImageItem = ({ uri, price }) => {
+  console.log("photoss", uri);
   return (
     <View style={styles.wrapperImage}>
       <Image source={{ uri: uri }} style={styles.image} />
+      {/* image backgroundColor */}
       <View style={styles.price}>
         <Text style={styles.text}>{price} €</Text>
       </View>
