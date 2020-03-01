@@ -2,21 +2,22 @@
 
 ## Overview
 
-## Screenshots
-
 6 screens are availables : Login, Signup, Home, Room, Around Me and Profile.
 
+## Screenshots
+
 <p align="center">
-  <img width="200" src="https://github.com/LilaGuill/airbnb-frontend/blob/master/public/screen1.png" alt="capture-1">
-   <img width="200" src="https://github.com/LilaGuill/airbnb-frontend/blob/master/public/screen2.png" alt="capture-1">
-   <img width="200" src="https://github.com/LilaGuill/airbnb-frontend/blob/master/public/screen3.png" alt="capture-1">
- <img width="200" src="https://github.com/LilaGuill/airbnb-frontend/blob/master/public/screen4.png" alt="capture-1">
+  <img width="200" src="https://github.com/LilaGuill/airbnb-frontend/tree/master/assets/screen2.png" alt="capture-1">
+   <img width="200" src="https://github.com/LilaGuill/airbnb-frontend/tree/master/assets/screen3.png" alt="capture-1">
+   <img width="200" src="https://github.com/LilaGuill/airbnb-frontend/tree/master/assets/screen4.png" alt="capture-1">
+ <img width="200" src="https://github.com/LilaGuill/airbnb-frontend/tree/master/assets/screen5.png" alt="capture-1">
 </p>
 
 ## Packages
 
 - React Navigation
-- Expo ActionSheet
+- Expo Location
+- Expo Permission
 - KeyboardAwareScrollView
 - React Native Maps
 - Axios
