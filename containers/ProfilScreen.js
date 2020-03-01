@@ -7,14 +7,11 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import Constants from "expo-constants";
 
 export default function ProfilScreen({ setUserToken, userToken, userId }) {
-  console.log(userId);
-  const id = "5e57b7133a162e0017c87968";
   const [isLoading, setIsLoading] = useState(null);
   const [name, setName] = useState(null);
   const [email, setEmail] = useState(null);
   const [username, setUsername] = useState(null);
   const [description, setDescription] = useState(null);
-  const [image, setImage] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,12 +65,7 @@ export default function ProfilScreen({ setUserToken, userToken, userId }) {
             }}
             scrollEnabled
           >
-            <ImageUser
-              image={image}
-              setImage={setImage}
-              userToken={userToken}
-              userId={userId}
-            />
+            <ImageUser userToken={userToken} userId={userId} />
             <TextInput
               value={name}
               style={styles.input}

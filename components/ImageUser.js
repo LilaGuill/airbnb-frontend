@@ -1,65 +1,67 @@
-import React, { useCallback } from "react";
+import React, { useState } from "react";
 import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
-import axios from "axios";
 
-const ImageUser = ({ image, setImage, userToken, userId }) => {
-  console.log(userId, userToken);
+const ImageUser = ({ userToken, userId }) => {
+  const [user, setUser] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+
   const updatePicture = async () => {
-    // demander permission
+    const cameraPerm = await Permissions.askAsync(Permissions.CAMERA);
     const cameraRollPerm = await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
-    // selectionner photo
-    if (cameraRollPerm.status === "granted") {
+    // Choisir camera ou camera roll
+    if (
+      cameraPerm.status === "granted" &&
+      cameraRollPerm.status === "granted"
+    ) {
       const pickerResult = await ImagePicker.launchImageLibraryAsync({
-        allowsEditing: true
+        allowsEditing: true,
+        aspect: [4, 3]
       });
 
-      // console.log(pickerResult);
-      setImage(pickerResult.uri);
-      // enregistre dans la base de donnée
-      const savePicture = async () => {
-        const uri = pickerResult.uri;
-
-        const uriParts = uri.split(".");
-        const fileType = uriParts[uriParts.length - 1];
-        const formData = new FormData();
-        formData.append("photo", {
-          uri,
-          name: `photo.${fileType}`,
-          type: `image/${fileType}`
-        });
-        const options = {
-          method: "PUT",
-          body: formData,
-          headers: {
-            Authorization: "Bearer " + userToken,
-            Accept: "application/json",
-            "Content-Type": "multipart/form-data"
-          }
-        };
-        console.log(options);
-        try {
-          const response = await axios.put(
-            "https://express-airbnb-api.herokuapp.com/user/upload_picture/" +
-              userId,
-            options
-          );
-          console.log(response);
-        } catch (error) {
-          alert(error.message);
+      // enregistre la photo dans la base de donnée
+      const uri = pickerResult.uri;
+      const uriParts = uri.split(".");
+      const fileType = uriParts[uriParts.length - 1];
+      const formData = new FormData();
+      formData.append("photo", {
+        uri,
+        name: `photo.${fileType}`,
+        type: `image/${fileType}`
+      });
+      const options = {
+        method: "PUT",
+        body: formData,
+        headers: {
+          Authorization: "Bearer " + userToken,
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data"
         }
       };
-      savePicture();
+
+      try {
+        const response = await fetch(
+          "https://express-airbnb-api.herokuapp.com/user/upload_picture/" +
+            userId,
+          options
+        );
+        const uploadResult = await response.json();
+
+        setUser(uploadResult);
+      } catch (error) {
+        alert(error.message);
+      }
+      setIsLoading(false);
     }
   };
 
   return (
     <>
-      {image ? (
+      {isLoading === false ? (
         <TouchableOpacity onPress={() => updatePicture()}>
-          <Image style={styles.image} source={{ uri: image }} />
+          <Image style={styles.image} source={{ uri: user.photo[0].url }} />
         </TouchableOpacity>
       ) : (
         <TouchableOpacity onPress={() => updatePicture()}>

@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 
-const Map = ({ latitude, longitude, title }) => {
+const Markers = ({ markers }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [lat, setLat] = useState();
   const [lng, setLng] = useState();
 
   useEffect(() => {
-    setLat(latitude);
-    setLng(longitude);
     setIsLoading(false);
+    setLat(lat);
+    setLng(lng);
   }, []);
 
   //ajouter le callout
@@ -23,8 +23,8 @@ const Map = ({ latitude, longitude, title }) => {
           initialRegion={{
             latitude: lat,
             longitude: lng,
-            latitudeDelta: 0.05,
-            longitudeDelta: 0.05
+            latitudeDelta: 0.1,
+            longitudeDelta: 0.1
             // ajouter delta pour gerer le zoom
           }}
           showsUserLocation={true}
@@ -33,20 +33,26 @@ const Map = ({ latitude, longitude, title }) => {
           maxZoomLevel={16}
           style={{
             width: "100%",
-            height: 300
+            height: "100%"
           }}
         >
-          <MapView.Marker
-            title={title}
-            coordinate={{
-              latitude: lat,
-              longitude: lng
-            }}
-          />
+          {markers.map(marker => {
+            return (
+              <MapView.Marker
+                key={marker.id}
+                coordinate={{
+                  latitude: marker.loc[1],
+                  longitude: marker.loc[0]
+                }}
+                title={marker.title}
+                description={marker.description}
+              />
+            );
+          })}
         </MapView>
       )}
     </View>
   );
 };
 
-export default Map;
+export default Markers;

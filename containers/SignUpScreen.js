@@ -1,15 +1,16 @@
 import React, { useState } from "react";
+
 import axios from "axios";
 import {
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View
 } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-export default function SignUpScreen({ setToken, setUserId }) {
+export default function SignUpScreen({ setUserToken, setId }) {
   const [email, setEmail] = useState("lila@gmail.com");
   const [username, setUsername] = useState("lila");
   const [name, setName] = useState("lila");
@@ -28,89 +29,90 @@ export default function SignUpScreen({ setToken, setUserId }) {
       }
     );
 
-    console.log(response.data);
+    setUserToken(response.data.token);
+    setId(response.data.id);
   };
 
   return (
-    <ScrollView style={styles.scroll}>
-      <View style={styles.container}>
-        <Text style={styles.title}>Rejoignez-nous !</Text>
-        <View style={styles.form}>
-          <TextInput
-            placeholderTextColor="white"
-            style={styles.input}
-            placeholder="email"
-            value={email}
-            onChangeText={text => setEmail(text)}
-          />
-          <TextInput
-            placeholderTextColor="white"
-            style={styles.input}
-            placeholder="username"
-            value={username}
-            onChangeText={text => setUsername(text)}
-          />
-          <TextInput
-            placeholderTextColor="white"
-            style={styles.input}
-            placeholder="name"
-            value={name}
-            onChangeText={text => setName(text)}
-          />
+    <KeyboardAwareScrollView
+      scrollEnabled
+      contentContainerStyle={{
+        flex: 1,
+        height: "100%",
+        paddingHorizontal: 20,
+        backgroundColor: "#FF5A5E",
+        justifyContent: "space-around",
+        alignItems: "center"
+      }}
+    >
+      <Text style={styles.title}>Rejoignez-nous !</Text>
 
-          <TextInput
-            placeholderTextColor="white"
-            style={styles.textarea}
-            placeholder="présentez-vous en quelques mots"
-            multiline
-            numberOfLines={4}
-            value={description}
-            onChangeText={text => setDescription(text)}
-          />
+      <TextInput
+        placeholderTextColor="white"
+        style={styles.input}
+        placeholder="email"
+        value={email}
+        onChangeText={text => setEmail(text)}
+      />
+      <TextInput
+        placeholderTextColor="white"
+        style={styles.input}
+        placeholder="username"
+        value={username}
+        onChangeText={text => setUsername(text)}
+      />
+      <TextInput
+        placeholderTextColor="white"
+        style={styles.input}
+        placeholder="name"
+        value={name}
+        onChangeText={text => setName(text)}
+      />
 
-          <TextInput
-            placeholderTextColor="white"
-            style={styles.input}
-            placeholder="mot de passe"
-            secureTextEntry={true}
-            value={password}
-            onChangeText={text => setPassword(text)}
-          />
-          <TextInput
-            placeholderTextColor="white"
-            style={styles.input}
-            placeholder="confirmez le mot de passe"
-            secureTextEntry={true}
-            value={confirmPassword}
-            onChangeText={text => setconfirmPassword(text)}
-          />
-        </View>
-        <TouchableOpacity
-          style={styles.btn}
-          onPress={async () => {
-            const userToken = "secret-token";
-            setToken(userToken);
-            handlePress();
-          }}
-        >
-          <Text>S'incrire</Text>
-        </TouchableOpacity>
-        <Text>Déjà un compte ? Se connecter</Text>
-      </View>
-    </ScrollView>
+      <TextInput
+        placeholderTextColor="white"
+        style={styles.textarea}
+        placeholder="présentez-vous en quelques mots"
+        multiline
+        numberOfLines={4}
+        value={description}
+        onChangeText={text => setDescription(text)}
+      />
+
+      <TextInput
+        placeholderTextColor="white"
+        style={styles.input}
+        placeholder="mot de passe"
+        secureTextEntry={true}
+        value={password}
+        onChangeText={text => setPassword(text)}
+      />
+      <TextInput
+        placeholderTextColor="white"
+        style={styles.input}
+        placeholder="confirmez le mot de passe"
+        secureTextEntry={true}
+        value={confirmPassword}
+        onChangeText={text => setconfirmPassword(text)}
+      />
+
+      <TouchableOpacity
+        style={styles.btn}
+        onPress={async () => {
+          const userToken = "secret-token";
+          setToken(userToken);
+          handlePress();
+        }}
+      >
+        <Text>S'incrire</Text>
+      </TouchableOpacity>
+      <Text>Déjà un compte ? Se connecter</Text>
+    </KeyboardAwareScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  scroll: {
-    flex: 1,
-    backgroundColor: "#FF5A5E"
-  },
-  container: {
-    alignItems: "center"
-  },
   title: {
-    marginTop: 100,
     fontSize: 20,
     color: "white"
   },
@@ -119,18 +121,19 @@ const styles = StyleSheet.create({
     borderBottomColor: "#efeae5",
     borderBottomWidth: 1,
     height: 40,
-    fontSize: 16,
+    fontSize: 18,
     color: "white",
-    width: "80%",
+    width: "90%",
     paddingLeft: 5
   },
   textarea: {
     borderColor: "#efeae5",
     borderWidth: 1,
     color: "white",
-    width: "80%",
+    width: "90%",
     height: 100,
-    paddingLeft: 5
+    paddingLeft: 5,
+    fontSize: 18
   },
   btn: {
     backgroundColor: "white",

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet } from "react-native";
 import { AsyncStorage } from "react-native";
-import { NavigationContainer, useRoute } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import SignInScreen from "./containers/SignInScreen";
@@ -31,14 +31,36 @@ export default function App() {
     setUserToken(userToken);
   };
 
+  const setId = async id => {
+    if (id) {
+      AsyncStorage.setItem("userId", id);
+    } else {
+      AsyncStorage.removeItem("userId");
+    }
+    setUserId(id);
+  };
   useEffect(() => {
     //vérifcation du token
     const CheckToken = async () => {
       const userToken = await AsyncStorage.getItem("userToken");
-      setToken(userToken);
+      setUserToken(userToken);
+
+      const userId = await AsyncStorage.getItem("userId");
+      setUserId(userId);
+
       setIsLoading(false);
     };
     CheckToken();
+  }, []);
+
+  useEffect(() => {
+    //vérifcation du token
+    const CheckId = async () => {
+      const userId = await AsyncStorage.getItem("userId");
+      setUserId(userId);
+      setIsLoading(false);
+    };
+    CheckId();
   }, []);
 
   return (
@@ -50,18 +72,10 @@ export default function App() {
             name="SignIn"
             options={{ header: () => null, animationEnabled: false }}
           >
-            {() => (
-              <SignInScreen
-                setUserToken={setUserToken}
-                setUserId={setUserId}
-                userId={userId}
-              />
-            )}
+            {() => <SignInScreen setUserToken={setUserToken} setId={setId} />}
           </Stack.Screen>
           <Stack.Screen name="SignUp">
-            {() => (
-              <SignUpScreen setUserToken={setUserToken} userToken={userToken} />
-            )}
+            {() => <SignUpScreen setUserToken={setUserToken} setId={setId} />}
           </Stack.Screen>
         </Stack.Navigator>
       ) : (

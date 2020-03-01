@@ -13,10 +13,11 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-export default function SignInScreen({ setUserToken, setUserId, userId }) {
+export default function SignInScreen({ setUserToken, setId }) {
   const [email, setEmail] = useState("lila@gmail.com");
   const [password, setPassword] = useState("lilampd");
-  const [isLoading, setIsLoading] = useState(false); //pour afficher un composant de chargement avce activity indicateur
+  const [isLoading, setIsLoading] = useState(false);
+  const navigation = useNavigation();
 
   const handlePress = async () => {
     // try catch
@@ -31,13 +32,11 @@ export default function SignInScreen({ setUserToken, setUserId, userId }) {
         }
       }
     );
-    setUserToken(response.data.token);
-    setUserId(response.data.id);
     setIsLoading(false);
-    console.log("response", response.data);
+    setUserToken(response.data.token);
+    setId(response.data.id);
   };
 
-  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       {/* //modifie les icons du haut du screen */}
@@ -80,9 +79,7 @@ export default function SignInScreen({ setUserToken, setUserId, userId }) {
         <View style={styles.wrapperBtn}>
           <TouchableOpacity
             style={styles.btn}
-            onPress={async () => {
-              // const userToken = "secret-token";
-              // setToken(userToken);
+            onPress={() => {
               handlePress();
             }}
           >

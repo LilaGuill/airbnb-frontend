@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import { useRoute } from "@react-navigation/core";
-
 import axios from "axios";
 import { ScrollView } from "react-native-gesture-handler";
 import ImageItem from "../components/ImageItem";
@@ -45,7 +44,7 @@ const RoomScreen = () => {
             <Rating rate={flat.ratingValue} />
           </View>
           <Text style={styles.description}>{flat.description}</Text>
-          <Map latitude={flat.loc[1]} longitude={flat.loc[0]} height={300} />
+          <Map latitude={flat.loc[1]} longitude={flat.loc[0]} />
         </View>
       )}
     </ScrollView>
