@@ -7,10 +7,10 @@
 ## Screenshots
 
 <p align="center">
-  <img width="200" src="https://github.com/LilaGuill/airbnb-frontend/blob/master/assets/screen2.png" alt="capture-1">
-   <img width="200" src="https://github.com/LilaGuill/airbnb-frontend/blob/master/assets/screen3.png" alt="capture-1">
+  <img width="200" src="https://github.com/LilaGuill/airbnb-frontend/blob/master/assets/screen5.png" alt="capture-1">
+   <img width="200" src="https://github.com/LilaGuill/airbnb-frontend/blob/master/assets/screen2.png" alt="capture-1">
    <img width="200" src="https://github.com/LilaGuill/airbnb-frontend/blob/master/assets/screen4.png" alt="capture-1">
- <img width="200" src="https://github.com/LilaGuill/airbnb-frontend/blob/master/assets/screen5.png" alt="capture-1">
+ <img width="200" src="https://github.com/LilaGuill/airbnb-frontend/blob/master/assets/screen3".png" alt="capture-1">
 </p>
 
 ## Packages
